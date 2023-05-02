@@ -11,7 +11,7 @@ interface Props {
 const Card = ({ product }: Props) => {
   return (
     <div className="bg-white card p-0">
-      <img className="card-img-top" src={product.img} alt="" />
+      <img className="card-img-top  " src={product.img} alt="" />
       <div className="card-body">
         <h5 className="card-title">{product.description}</h5>
         <p className="card-text">{"$" + product.price}</p>

@@ -1,4 +1,5 @@
 import Card from "./Card";
+import "./Card.css";
 
 interface ProductCard {
   img: string;

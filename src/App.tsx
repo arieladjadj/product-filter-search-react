@@ -1,54 +1,50 @@
+import { useState } from "react";
+import Buttons from "./Components/Buttons";
 import Products from "./Components/Products";
+import productsData from "./ProductsData";
+import SearchFilter from "./Components/SearchFilter";
+
+const categories = ["All", "Bottomwaer", "Topwaer", "Jackets", "Watches"];
 
 function App() {
-  const products = [
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3861.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans",
-      price: "23",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3861.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans 2",
-      price: "30",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3899-nocap.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans 3",
-      price: "40",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3861.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans",
-      price: "23",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3861.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans 2",
-      price: "30",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3899-nocap.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans 3",
-      price: "40",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3861.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans 2",
-      price: "30",
-    },
-    {
-      img: "https://cdn.thewirecutter.com/wp-content/media/2021/05/mensjeans-2048px-3899-nocap.jpg?auto=webp&quality=75&width=980&dpr=2",
-      description: "Jeans 3",
-      price: "40",
-    },
-  ];
+  const [category, setCategory] = useState("All");
+  const [text, setText] = useState("");
+
+  let productsOfCategory =
+    category === "All"
+      ? productsData
+      : productsData.filter((product) => product.category === category);
+
+  let filterdProducts = text
+    ? productsOfCategory.filter((product) =>
+        product.description.toLowerCase().includes(text)
+      )
+    : productsOfCategory;
+
+  const handleChangeCategory = (category: string) => {
+    console.log(category);
+    setCategory(category);
+  };
+
   return (
     <div className="container">
-      <h1 className="text-primary mb-3 text-center">
-        PRODUCT FILTER AND SEARCH
-      </h1>
-      <Products products={products}></Products>
+      <div>
+        <h1 className="text-primary mb-3 text-center">
+          PRODUCT FILTER AND SEARCH
+        </h1>
+      </div>
+
+      <div className="mb-3  d-flex justify-content-center">
+        <SearchFilter doSomthing={(text) => setText(text)}></SearchFilter>
+      </div>
+      <div className="mb-4 d-flex justify-content-center">
+        <Buttons
+          onClick={handleChangeCategory}
+          categories={categories}
+        ></Buttons>
+      </div>
+
+      <Products products={filterdProducts}></Products>
     </div>
   );
 }
